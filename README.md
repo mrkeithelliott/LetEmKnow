@@ -1,7 +1,8 @@
 # LetEmKnow ![GitHub licenses](https://img.shields.io/badge/license-MIT-lightgrey.svg) 
 a Swift Lib to provide dynamic UI updates to users
 
-#  [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![Swift 2.0](https://img.shields.io/badge/swift-2.0-orange.svg) ![Release 0.1](https://img.shields.io/badge/release-0.1-blue.svg) ![Platform iOS](https://img.shields.io/badge/platform-iOS-lightgrey.svg)
+#  [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![Swift 2.0](https://img.shields.io/badge/swift-2.0-orange.svg) 
+![Release 0.1](https://img.shields.io/badge/release-0.1-blue.svg) ![Platform iOS](https://img.shields.io/badge/platform-iOS-lightgrey.svg)
 
 ## Requirements
 * A version of [Xcode][xcode] (7.x) capable of building the project you wish to document.
