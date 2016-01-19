@@ -56,7 +56,6 @@ public class ToastView: UIView {
         frame.size.height = height
         frame.origin.y = screen.height - height - 10
         self.frame = frame
-        setNeedsDisplay()
     }
     
     public func configure(title: String? = nil, message: String, delayInSeconds: Int? = nil,

@@ -18,6 +18,9 @@ public class LEKManager: NSObject {
     public init(mainWindow: UIWindow){
         self.window = mainWindow
         super.init()
+        
+        LEKPreferences().incrementAppLaunches()
+        let launches = LEKPreferences().getAppLaunchCount()
     }
     
     public func sendToast(title: String? = nil, message: String, icon: UIImage? = nil){

@@ -23,6 +23,7 @@
 		CD9DD1531C442A1A009D6A96 /* LetEmKnow.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD9DD1581C46DA02009D6A96 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD9DD1571C46DA02009D6A96 /* Media.xcassets */; };
 		CD9DD1621C4E94A8009D6A96 /* LEKNetworkMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9DD1611C4E94A8009D6A96 /* LEKNetworkMgr.swift */; };
+		CD9DD1641C4EE7B9009D6A96 /* LEKPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9DD1631C4EE7B9009D6A96 /* LEKPreferences.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		CD9DD14E1C442A07009D6A96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD9DD1571C46DA02009D6A96 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		CD9DD1611C4E94A8009D6A96 /* LEKNetworkMgr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEKNetworkMgr.swift; sourceTree = "<group>"; };
+		CD9DD1631C4EE7B9009D6A96 /* LEKPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEKPreferences.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				CD9DD11C1C4404C9009D6A96 /* Info.plist */,
 				CD9DD1381C4423A1009D6A96 /* LEKManager.swift */,
 				CD9DD1611C4E94A8009D6A96 /* LEKNetworkMgr.swift */,
+				CD9DD1631C4EE7B9009D6A96 /* LEKPreferences.swift */,
 				CD9DD1571C46DA02009D6A96 /* Media.xcassets */,
 			);
 			path = LetEmKnow;
@@ -315,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD9DD1391C4423A1009D6A96 /* LEKManager.swift in Sources */,
+				CD9DD1641C4EE7B9009D6A96 /* LEKPreferences.swift in Sources */,
 				CD9DD1621C4E94A8009D6A96 /* LEKNetworkMgr.swift in Sources */,
 				CD9DD1371C441B7B009D6A96 /* ToastView.swift in Sources */,
 			);
