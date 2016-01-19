@@ -22,6 +22,7 @@
 		CD9DD1521C442A1A009D6A96 /* LetEmKnow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */; };
 		CD9DD1531C442A1A009D6A96 /* LetEmKnow.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD9DD1581C46DA02009D6A96 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD9DD1571C46DA02009D6A96 /* Media.xcassets */; };
+		CD9DD1621C4E94A8009D6A96 /* LEKNetworkMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9DD1611C4E94A8009D6A96 /* LEKNetworkMgr.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		CD9DD14C1C442A07009D6A96 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD9DD14E1C442A07009D6A96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD9DD1571C46DA02009D6A96 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		CD9DD1611C4E94A8009D6A96 /* LEKNetworkMgr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEKNetworkMgr.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 				CD9DD11A1C4404C9009D6A96 /* LetEmKnow.h */,
 				CD9DD11C1C4404C9009D6A96 /* Info.plist */,
 				CD9DD1381C4423A1009D6A96 /* LEKManager.swift */,
+				CD9DD1611C4E94A8009D6A96 /* LEKNetworkMgr.swift */,
 				CD9DD1571C46DA02009D6A96 /* Media.xcassets */,
 			);
 			path = LetEmKnow;
@@ -312,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD9DD1391C4423A1009D6A96 /* LEKManager.swift in Sources */,
+				CD9DD1621C4E94A8009D6A96 /* LEKNetworkMgr.swift in Sources */,
 				CD9DD1371C441B7B009D6A96 /* ToastView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -560,6 +564,7 @@
 				CD9DD12D1C4404C9009D6A96 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CD9DD12E1C4404C9009D6A96 /* Build configuration list for PBXNativeTarget "LetEmKnowTests" */ = {
 			isa = XCConfigurationList;
@@ -568,6 +573,7 @@
 				CD9DD1301C4404C9009D6A96 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CD9DD14F1C442A07009D6A96 /* Build configuration list for PBXNativeTarget "LEKExample" */ = {
 			isa = XCConfigurationList;
@@ -576,6 +582,7 @@
 				CD9DD1511C442A07009D6A96 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

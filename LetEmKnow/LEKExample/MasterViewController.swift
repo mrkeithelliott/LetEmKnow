@@ -26,17 +26,35 @@ class MasterViewController: UITableViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newToastReceived:", name: LEK_NEW_TOAST_NOTIFICATION, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
         super.viewWillAppear(animated)
         
-        let lek = LEKManager(mainWindow: UIApplication.sharedApplication().windows[0])
+//        let lek = LEKManager(mainWindow: UIApplication.sharedApplication().windows[0])
 //        lek.sendToast("Test Title", message: "Test message and such", icon: nil)
 //        lek.sendToast("Test Toast Title", message: "Test toast message with a really long explanation of really nothing at all.  Hopefully multilines", backgroundColor: UIColor.redColor(),titleColor: UIColor.whiteColor(), textColor: UIColor.whiteColor(), icon: nil)
-        lek.sendToast("Test Toast Title", message: "Test toast message with a really long explanation of really nothing at all.  Hopefully multilines", delayInSeconds: 3, backgroundColor: UIColor.redColor(),titleColor: UIColor.whiteColor(), textColor: UIColor.whiteColor(), icon: nil)
+//        lek.sendToast("Test Toast Title", message: "Test toast message with a really long explanation of really nothing at all.  Hopefully multilines", delayInSeconds: 3, backgroundColor: UIColor.redColor(),titleColor: UIColor.whiteColor(), textColor: UIColor.whiteColor(), icon: nil)
+        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(2) * Double(NSEC_PER_SEC)))
+        dispatch_after(delay, dispatch_get_main_queue(), { () -> Void in
+            NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_TOAST_NOTIFICATION, object: nil, userInfo: ["toast" : ["title": "Test Toast Message", "message": "Test toast message with a really long explanation of really nothing at all.  Hopefully multilines", "icon": "https://test.com/icon", "backgroundColor": "#808080",
+                "textColor": "white", "titleColor": "ffffff"]])
 
+        })
+
+       
+    }
+    
+    func newToastReceived(notification: NSNotification) {
+        if let userInfo = notification.userInfo,
+            let toastDict = userInfo["toast"] as? NSDictionary,
+            let toastObj: ToastMessage = ToastMessage.parse(toastDict){
+                let lek = LEKManager(mainWindow: UIApplication.sharedApplication().windows[0])
+                lek.sendToast(toastObj.title, message: toastObj.message, delayInSeconds: 3, backgroundColor: toastObj.backgroundColor,titleColor: toastObj.titleColor, textColor: toastObj.textColor, icon: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {

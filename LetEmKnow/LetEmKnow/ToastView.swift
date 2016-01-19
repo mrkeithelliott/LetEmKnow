@@ -87,6 +87,7 @@ public class ToastView: UIView {
             self.frame = frame
         }) { (complete) -> Void in
             self.view.removeFromSuperview()
+            NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_TOAST_DISMISSED, object: nil)
         }
     }
 }

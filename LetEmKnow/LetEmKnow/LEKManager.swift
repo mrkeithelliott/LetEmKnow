@@ -8,6 +8,10 @@
 
 import Foundation
 
+public let LEK_NEW_TOAST_NOTIFICATION: String = "com.gittielabs.lek.new_toast_notification"
+public let LEK_NEW_TOAST_SHOWN: String = "com.gittielabs.lek.new_toast_shown"
+public let LEK_NEW_TOAST_DISMISSED: String = "com.gittielabs.lek.new_toast_dismissed"
+
 public class LEKManager: NSObject {
     var window: UIWindow!
     
@@ -47,7 +51,7 @@ public class LEKManager: NSObject {
         let screen = UIScreen.mainScreen().bounds
         if let topView = window.rootViewController?.view{
             var frame = toastView.frame
-            frame.origin.y = frame.origin.y - toastView.frame.size.height - 20
+            frame.origin.y = frame.origin.y + toastView.frame.size.height + 20
             toastView.frame = frame
             
             UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: [.LayoutSubviews, .TransitionNone], animations: { () -> Void in
@@ -55,6 +59,8 @@ public class LEKManager: NSObject {
                 frame.origin.y = screen.height - toastView.frame.size.height - 20
                 toastView.frame = frame
                 topView.addSubview(toastView)
+                NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_TOAST_SHOWN, object: nil)
+                
                 }){ (status) in
                     if delayInSeconds != nil {
                         self.dismissToastView(toastView, delayInSeconds: delayInSeconds)
@@ -73,6 +79,7 @@ public class LEKManager: NSObject {
                 toastView.frame = frame
                 }) { (complete) -> Void in
                     toastView.removeFromSuperview()
+                    NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_TOAST_DISMISSED, object: nil)
             }
         })
     }
