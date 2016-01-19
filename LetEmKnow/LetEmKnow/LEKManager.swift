@@ -33,16 +33,16 @@ public class LEKManager: NSObject {
         let screen = UIScreen.mainScreen().bounds
         let frame = CGRect(x:(screen.width - 300)/2, y: screen.height - 60, width: 300, height: 60)
         let toastView = ToastView(frame: frame)
-        toastView.configure(title, message: message, backgroundColor: backgroundColor,titleColor: titleColor, textColor: textColor, icon: nil)
+        toastView.configure(title, message: message, backgroundColor: backgroundColor,titleColor: titleColor, textColor: textColor, icon: icon, iconType: nil)
         
         animateToastIntoView(toastView)
     }
     
-    public func sendToast(title: String? = nil, message: String, delayInSeconds: Double?, backgroundColor: UIColor, titleColor: UIColor, textColor: UIColor, icon: UIImage? = nil){
+    public func sendToast(title: String? = nil, message: String, delayInSeconds: Double?, backgroundColor: UIColor, titleColor: UIColor, textColor: UIColor, icon: UIImage? = nil, iconType: IconType? = nil){
         let screen = UIScreen.mainScreen().bounds
         let frame = CGRect(x:(screen.width - 300)/2, y: screen.height - 60, width: 300, height: 60)
         let toastView = ToastView(frame: frame)
-        toastView.configure(title, message: message, backgroundColor: backgroundColor,titleColor: titleColor, textColor: textColor, icon: nil)
+        toastView.configure(title, message: message, backgroundColor: backgroundColor,titleColor: titleColor, textColor: textColor, icon: icon, iconType: iconType)
         
         animateToastIntoView(toastView, delayInSeconds: delayInSeconds)
     }

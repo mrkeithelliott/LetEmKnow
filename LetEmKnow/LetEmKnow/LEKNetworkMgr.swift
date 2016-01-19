@@ -47,10 +47,16 @@ struct NetworkManager{
     }
 }
 
+public enum IconType: String {
+    case Important = "Important"
+    case Information = "Information"
+}
+
 public struct ToastMessage{
     public var title: String
     public var message: String
     public var icon: NSURL!
+    public var iconType: IconType!
     public var backgroundColor: UIColor
     public var titleColor: UIColor
     public var textColor: UIColor
@@ -61,15 +67,18 @@ public struct ToastMessage{
             dict.valueForKeyPath("icon") as? String,
             dict.valueForKeyPath("backgroundColor") as? String,
             dict.valueForKeyPath("titleColor") as? String,
-            dict.valueForKeyPath("textColor") as? String) {
-        case (let title, let message, let icon, let backgroundColor, let titleColor, let textColor) where title != nil && message != nil:
+            dict.valueForKeyPath("textColor") as? String,
+            dict.valueForKeyPath("iconType") as? String) {
+        case (let title, let message, let icon, let backgroundColor, let titleColor, let textColor, let iconType) where title != nil && message != nil:
         
             let iconURL = NSURL(string: icon!)
             let _titleColor = getColor(titleColor!) ?? UIColor.whiteColor()
             let _backgroundColor = getColor(backgroundColor!) ?? UIColor.redColor()
             let _textColor = getColor(textColor!) ?? UIColor.whiteColor()
+            let _iconType = IconType(rawValue: iconType!)
             
-            let toast = ToastMessage(title: title!, message: message!, icon: iconURL!, backgroundColor: _backgroundColor, titleColor: _titleColor, textColor: _textColor)
+            let toast = ToastMessage(title: title!, message: message!, icon: iconURL!, iconType: _iconType, backgroundColor: _backgroundColor, titleColor: _titleColor, textColor: _textColor)
+            
             return toast
         default:
             return nil

@@ -60,12 +60,23 @@ public class ToastView: UIView {
     }
     
     public func configure(title: String? = nil, message: String, delayInSeconds: Int? = nil,
-        backgroundColor: UIColor, titleColor: UIColor, textColor: UIColor, icon: UIImage? = nil){
+        backgroundColor: UIColor, titleColor: UIColor, textColor: UIColor, icon: UIImage? = nil, iconType: IconType?){
         self.view.layer.backgroundColor = backgroundColor.colorWithAlphaComponent(0.8).CGColor
         self.titleLabel.text = title
         self.titleLabel.textColor = titleColor
         self.messageLabel.text = message
         self.messageLabel.textColor = textColor
+        
+        if icon != nil{
+            self.iconView.image = icon
+        }
+        else if iconType != nil {
+            let icon_name = iconType!.rawValue.lowercaseString
+            let bundle = NSBundle(forClass: self.dynamicType)
+            let img = UIImage(named: icon_name, inBundle: bundle, compatibleWithTraitCollection: nil)
+            self.iconView.image = img
+        }
+            
         self.iconView.image = self.iconView.image?.imageWithRenderingMode(.AlwaysTemplate)
         self.iconView.tintColor = textColor
         let screen = UIScreen.mainScreen().bounds
@@ -76,7 +87,6 @@ public class ToastView: UIView {
         frame.size.height = height + 28
         frame.origin.y = screen.height - height - 10
         self.frame = frame
-        setNeedsDisplay()
     }
     
     
