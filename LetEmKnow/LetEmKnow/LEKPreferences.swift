@@ -13,6 +13,7 @@ let LEK_APP_LAUNCHES_CHANGED = "com.gittielabs.applaunches.changed"
 let LEK_APP_ID = "com.gittielabs.appId"
 let LEK_LAST_APPSTORE_CHECK = "com.gittielabs.last_appstore_check"
 let LEK_INSTALL_DATE = "com.gittielabs.install_date"
+let LEK_REQUIRED_LAUNCHES_BEFORE_RATING = "com.gittielabs.required_launches_before_rating"
 
 public struct LEKPreferences {
     let userdefaults = NSUserDefaults()
@@ -71,4 +72,13 @@ public struct LEKPreferences {
         return date
     }
     
+    func setLaunchesBeforeRating(launches: Int){
+        userdefaults.setInteger(launches, forKey: LEK_REQUIRED_LAUNCHES_BEFORE_RATING)
+        userdefaults.synchronize()
+    }
+    
+    func getLaunchesRequiredBeforeRating()->Int{
+        let launches = userdefaults.integerForKey(LEK_REQUIRED_LAUNCHES_BEFORE_RATING) ?? 0
+        return launches
+    }
 }

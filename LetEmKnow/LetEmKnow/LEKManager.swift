@@ -35,6 +35,8 @@ public class LEKManager: NSObject {
         super.init()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newToastReceived:", name: LEK_NEW_TOAST_NOTIFICATION, object: nil)
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "rateTheApp:", name: LEK_APP_LAUNCHES_CHANGED, object: nil)
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidBecomeActive:", name:UIApplicationDidBecomeActiveNotification , object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidFinishLaunching:" , name: UIApplicationDidFinishLaunchingNotification, object: nil)
@@ -85,6 +87,31 @@ public class LEKManager: NSObject {
         networkMgr.saveUpdates()
     }
     
+    public func rateTheApp(notification: NSNotification){
+        let userinfo = notification.userInfo
+        let requiredLaunches = LEKManager.sharedInstance.preferences.getLaunchesRequiredBeforeRating()
+        if let app_launches = userinfo?["app_launches"] as? Int{
+            if app_launches > requiredLaunches{
+                let app_name = ""
+                let message = "Do you love the \(app_name) app?  Please rate us!"
+                let rateAlert = UIAlertController(title: "Rate Us", message: message, preferredStyle: .Alert)
+                let goToItunesAction = UIAlertAction(title: "Update Now", style: .Default, handler: { (action) -> Void in
+                    let appId = LEKManager.sharedInstance.preferences.getAppId()
+                    let url = NSURL(string: "itms-apps://itunes.apple.com/app/id\(appId)")
+                    UIApplication.sharedApplication().openURL(url!)
+                })
+                
+                let cancelAction = UIAlertAction(title: "Not Now", style: .Cancel, handler: { (action) -> Void in
+                    
+                })
+                
+                rateAlert.addAction(cancelAction)
+                rateAlert.addAction(goToItunesAction)
+                LEKManager.sharedInstance.window.rootViewController?.presentViewController(rateAlert, animated: true, completion: nil)
+            }
+        }
+    }
+    
     public func appStoreUpdated(notification: NSNotification) {
         if let userinfo = notification.userInfo{
             let version = userinfo["version"] as? String
@@ -96,7 +123,7 @@ public class LEKManager: NSObject {
                 let updateAlert = UIAlertController(title: "Update Available", message: message, preferredStyle: .Alert)
                 let goToItunesAction = UIAlertAction(title: "Update Now", style: .Default, handler: { (action) -> Void in
                     let appId = userinfo["appId"] as? NSNumber
-                    let url = NSURL(string: "https://itunes.apple.com/us/app/pages/id\(appId!.stringValue)?mt=8")
+                    let url = NSURL(string: "itms-apps://itunes.apple.com/app/id\(appId!.stringValue)")
                     UIApplication.sharedApplication().openURL(url!)
                 })
             

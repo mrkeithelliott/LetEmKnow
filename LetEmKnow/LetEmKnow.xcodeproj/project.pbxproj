@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CD022C081C500182007D5608 /* LEKModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD022C071C500182007D5608 /* LEKModels.swift */; };
+		CD022C0B1C50252E007D5608 /* UpdateImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD022C0A1C50252E007D5608 /* UpdateImageView.xib */; };
 		CD9DD11B1C4404C9009D6A96 /* LetEmKnow.h in Headers */ = {isa = PBXBuildFile; fileRef = CD9DD11A1C4404C9009D6A96 /* LetEmKnow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD9DD1221C4404C9009D6A96 /* LetEmKnow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */; };
 		CD9DD1271C4404C9009D6A96 /* LetEmKnowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9DD1261C4404C9009D6A96 /* LetEmKnowTests.swift */; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		CD022C071C500182007D5608 /* LEKModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEKModels.swift; sourceTree = "<group>"; };
+		CD022C0A1C50252E007D5608 /* UpdateImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateImageView.xib; sourceTree = "<group>"; };
 		CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LetEmKnow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD9DD11A1C4404C9009D6A96 /* LetEmKnow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetEmKnow.h; sourceTree = "<group>"; };
 		CD9DD11C1C4404C9009D6A96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			children = (
 				CD9DD1341C440DFC009D6A96 /* ToastView.xib */,
 				CD9DD1361C441B7B009D6A96 /* ToastView.swift */,
+				CD022C0A1C50252E007D5608 /* UpdateImageView.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD022C0B1C50252E007D5608 /* UpdateImageView.xib in Resources */,
 				CD9DD1581C46DA02009D6A96 /* Media.xcassets in Resources */,
 				CD9DD1351C440DFC009D6A96 /* ToastView.xib in Resources */,
 			);
@@ -480,6 +484,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = LetEmKnow/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gittie.LetEmKnow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -499,6 +504,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = LetEmKnow/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gittie.LetEmKnow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
