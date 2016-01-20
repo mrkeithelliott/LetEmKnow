@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD022C081C500182007D5608 /* LEKModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD022C071C500182007D5608 /* LEKModels.swift */; };
 		CD9DD11B1C4404C9009D6A96 /* LetEmKnow.h in Headers */ = {isa = PBXBuildFile; fileRef = CD9DD11A1C4404C9009D6A96 /* LetEmKnow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD9DD1221C4404C9009D6A96 /* LetEmKnow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */; };
 		CD9DD1271C4404C9009D6A96 /* LetEmKnowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9DD1261C4404C9009D6A96 /* LetEmKnowTests.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CD022C071C500182007D5608 /* LEKModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEKModels.swift; sourceTree = "<group>"; };
 		CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LetEmKnow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD9DD11A1C4404C9009D6A96 /* LetEmKnow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetEmKnow.h; sourceTree = "<group>"; };
 		CD9DD11C1C4404C9009D6A96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				CD9DD1381C4423A1009D6A96 /* LEKManager.swift */,
 				CD9DD1611C4E94A8009D6A96 /* LEKNetworkMgr.swift */,
 				CD9DD1631C4EE7B9009D6A96 /* LEKPreferences.swift */,
+				CD022C071C500182007D5608 /* LEKModels.swift */,
 				CD9DD1571C46DA02009D6A96 /* Media.xcassets */,
 			);
 			path = LetEmKnow;
@@ -318,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD9DD1391C4423A1009D6A96 /* LEKManager.swift in Sources */,
+				CD022C081C500182007D5608 /* LEKModels.swift in Sources */,
 				CD9DD1641C4EE7B9009D6A96 /* LEKPreferences.swift in Sources */,
 				CD9DD1621C4E94A8009D6A96 /* LEKNetworkMgr.swift in Sources */,
 				CD9DD1371C441B7B009D6A96 /* ToastView.swift in Sources */,

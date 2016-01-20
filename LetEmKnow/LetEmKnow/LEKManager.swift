@@ -11,6 +11,7 @@ import UIKit
 public let LEK_NEW_TOAST_NOTIFICATION: String = "com.gittielabs.lek.new_toast_notification"
 public let LEK_NEW_TOAST_SHOWN: String = "com.gittielabs.lek.new_toast_shown"
 public let LEK_NEW_TOAST_DISMISSED: String = "com.gittielabs.lek.new_toast_dismissed"
+public let LEK_APP_STORE_UPDATE_RETREIVED = "com.gittielabs.lek.appstore_update_retreived"
 
 public class LEKManager: NSObject {
     var window: UIWindow!
@@ -26,13 +27,38 @@ public class LEKManager: NSObject {
         sharedInstance.preferences = LEKPreferences()
         sharedInstance.networkMgr = LEKNetworkManager(rootURL: "")
         
-        
+        sharedInstance.preferences.setAppId("661035659")
         sharedInstance.preferences.incrementAppLaunches()
     }
     
     private override init(){
         super.init()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newToastReceived:", name: LEK_NEW_TOAST_NOTIFICATION, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidBecomeActive:", name:UIApplicationDidBecomeActiveNotification , object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidFinishLaunching:" , name: UIApplicationDidFinishLaunchingNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appWillEnterForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appWillTerminate:", name: UIApplicationWillTerminateNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appStoreUpdated:", name: LEK_APP_STORE_UPDATE_RETREIVED, object: nil)
+
+    }
+    
+    public func newToastReceived(notification: NSNotification) {
+        if let userInfo = notification.userInfo,
+            let toastDict = userInfo["toast"] as? NSDictionary,
+            let toastObj: ToastMessage = ToastMessage.parse(toastDict){
+                self.sendToast(toastObj.title, message: toastObj.message, delayInSeconds: 3, backgroundColor: toastObj.backgroundColor,titleColor: toastObj.titleColor, textColor: toastObj.textColor, icon: nil, iconType: toastObj.iconType)
+        }
+    }
+    
+    public func appDidBecomeActive(notification: NSNotification){
+       networkMgr.checkForNewMessages()
         
         let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(2) * Double(NSEC_PER_SEC)))
         dispatch_after(delay, dispatch_get_main_queue(), { () -> Void in
@@ -42,11 +68,47 @@ public class LEKManager: NSObject {
         })
     }
     
-    public func newToastReceived(notification: NSNotification) {
-        if let userInfo = notification.userInfo,
-            let toastDict = userInfo["toast"] as? NSDictionary,
-            let toastObj: ToastMessage = ToastMessage.parse(toastDict){
-                self.sendToast(toastObj.title, message: toastObj.message, delayInSeconds: 3, backgroundColor: toastObj.backgroundColor,titleColor: toastObj.titleColor, textColor: toastObj.textColor, icon: nil, iconType: toastObj.iconType)
+    public func appDidFinishLaunching(notification: NSNotification){
+        if let appId = self.preferences.getAppId(){
+            networkMgr.checkForAppStoreUpdates(appId)
+        }
+    }
+    
+    public func appWillEnterForeground(notification: NSNotification){
+    }
+    
+    public func appWillTerminate(notification: NSNotification){
+        networkMgr.saveUpdates()
+    }
+    
+    public func appDidEnterBackground(notification: NSNotification){
+        networkMgr.saveUpdates()
+    }
+    
+    public func appStoreUpdated(notification: NSNotification) {
+        if let userinfo = notification.userInfo{
+            let version = userinfo["version"] as? String
+            let installedVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String
+
+            if version != installedVersion{
+                // Display view to update app
+                let message = "Version \(version!) is now available."
+                let updateAlert = UIAlertController(title: "Update Available", message: message, preferredStyle: .Alert)
+                let goToItunesAction = UIAlertAction(title: "Update Now", style: .Default, handler: { (action) -> Void in
+                    let appId = userinfo["appId"] as? NSNumber
+                    let url = NSURL(string: "https://itunes.apple.com/us/app/pages/id\(appId!.stringValue)?mt=8")
+                    UIApplication.sharedApplication().openURL(url!)
+                })
+            
+                let cancelAction = UIAlertAction(title: "Not Now", style: .Cancel, handler: { (action) -> Void in
+                    
+                })
+                
+                updateAlert.addAction(cancelAction)
+                updateAlert.addAction(goToItunesAction)
+                LEKManager.sharedInstance.window.rootViewController?.presentViewController(updateAlert, animated: true, completion: nil)
+                
+            }
         }
     }
     
