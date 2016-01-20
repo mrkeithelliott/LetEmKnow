@@ -8,18 +8,22 @@
 
 import Foundation
 
-struct NetworkManager{
+public struct LEKNetworkManager{
     let session: NSURLSession
     var _rootURL: NSURL! = nil
     
-    init(rootURL: String){
+    init(rootURL: String?){
         session = NSURLSession.sharedSession()
-        if let url = NSURL(string: rootURL){
+        if let url = NSURL(string: rootURL!){
             _rootURL = url
         }
     }
     
     func checkForNewMessage(){
+        if _rootURL == nil {
+            return
+        }
+        
         let request = NSMutableURLRequest(URL: self._rootURL)
         request.HTTPMethod = "GET"
         

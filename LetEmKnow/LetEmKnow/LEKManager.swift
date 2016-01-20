@@ -6,7 +6,7 @@
 //  Copyright © 2016 GittieLabs. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public let LEK_NEW_TOAST_NOTIFICATION: String = "com.gittielabs.lek.new_toast_notification"
 public let LEK_NEW_TOAST_SHOWN: String = "com.gittielabs.lek.new_toast_shown"
@@ -14,13 +14,40 @@ public let LEK_NEW_TOAST_DISMISSED: String = "com.gittielabs.lek.new_toast_dismi
 
 public class LEKManager: NSObject {
     var window: UIWindow!
+    var preferences: LEKPreferences!
+    var networkMgr: LEKNetworkManager!
+    var application: UIApplication!
     
-    public init(mainWindow: UIWindow){
-        self.window = mainWindow
-        super.init()
+    public static var sharedInstance = LEKManager()
+    
+    public class func setup(application: UIApplication){
+        sharedInstance.window = application.windows[0]
+        sharedInstance.application = application
+        sharedInstance.preferences = LEKPreferences()
+        sharedInstance.networkMgr = LEKNetworkManager(rootURL: "")
         
-        LEKPreferences().incrementAppLaunches()
-        let launches = LEKPreferences().getAppLaunchCount()
+        
+        sharedInstance.preferences.incrementAppLaunches()
+    }
+    
+    private override init(){
+        super.init()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newToastReceived:", name: LEK_NEW_TOAST_NOTIFICATION, object: nil)
+        
+        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(2) * Double(NSEC_PER_SEC)))
+        dispatch_after(delay, dispatch_get_main_queue(), { () -> Void in
+            NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_TOAST_NOTIFICATION, object: nil, userInfo: ["toast" : ["title": "Test Toast Message", "message": "Test toast message with a really long explanation of really nothing at all.  Hopefully multilines", "icon": "https://test.com/icon", "backgroundColor": "#808080",
+                "textColor": "white", "titleColor": "ffffff",
+                "iconType": "Important"]])
+        })
+    }
+    
+    public func newToastReceived(notification: NSNotification) {
+        if let userInfo = notification.userInfo,
+            let toastDict = userInfo["toast"] as? NSDictionary,
+            let toastObj: ToastMessage = ToastMessage.parse(toastDict){
+                self.sendToast(toastObj.title, message: toastObj.message, delayInSeconds: 3, backgroundColor: toastObj.backgroundColor,titleColor: toastObj.titleColor, textColor: toastObj.textColor, icon: nil, iconType: toastObj.iconType)
+        }
     }
     
     public func sendToast(title: String? = nil, message: String, icon: UIImage? = nil){

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import LetEmKnow
 
 class MasterViewController: UITableViewController {
 
@@ -26,31 +25,11 @@ class MasterViewController: UITableViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newToastReceived:", name: LEK_NEW_TOAST_NOTIFICATION, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
         super.viewWillAppear(animated)
-        
-        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(2) * Double(NSEC_PER_SEC)))
-        dispatch_after(delay, dispatch_get_main_queue(), { () -> Void in
-            NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_TOAST_NOTIFICATION, object: nil, userInfo: ["toast" : ["title": "Test Toast Message", "message": "Test toast message with a really long explanation of really nothing at all.  Hopefully multilines", "icon": "https://test.com/icon", "backgroundColor": "#808080",
-                "textColor": "white", "titleColor": "ffffff",
-                "iconType": "Important"]])
-        })
-
-       
-    }
-    
-    func newToastReceived(notification: NSNotification) {
-        if let userInfo = notification.userInfo,
-            let toastDict = userInfo["toast"] as? NSDictionary,
-            let toastObj: ToastMessage = ToastMessage.parse(toastDict){
-                let lek = LEKManager(mainWindow: UIApplication.sharedApplication().windows[0])
-                lek.sendToast(toastObj.title, message: toastObj.message, delayInSeconds: 3, backgroundColor: toastObj.backgroundColor,titleColor: toastObj.titleColor, textColor: toastObj.textColor, icon: nil, iconType: toastObj.iconType)
-        }
     }
 
     override func didReceiveMemoryWarning() {
