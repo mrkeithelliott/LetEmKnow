@@ -28,6 +28,8 @@ public class LEKManager: NSObject {
         sharedInstance.networkMgr = LEKNetworkManager(rootURL: "")
         
         sharedInstance.preferences.setAppId("661035659")
+        sharedInstance.preferences.setLaunchesBeforeRating(1)
+        sharedInstance.preferences.setLaunchesBeforeCheckingAppVersion(5)
         sharedInstance.preferences.incrementAppLaunches()
     }
     
@@ -72,7 +74,11 @@ public class LEKManager: NSObject {
     
     public func appDidFinishLaunching(notification: NSNotification){
         if let appId = self.preferences.getAppId(){
-            networkMgr.checkForAppStoreUpdates(appId)
+            let launches = self.preferences.getAppLaunchCount()
+            let launchesBeforeAppVersionCheck = self.preferences.getLaunchesBeforeCheckingAppVersion()
+            if launches > launchesBeforeAppVersionCheck {
+                networkMgr.checkForAppStoreUpdates(appId)
+            }
         }
     }
     
@@ -107,7 +113,10 @@ public class LEKManager: NSObject {
                 
                 rateAlert.addAction(cancelAction)
                 rateAlert.addAction(goToItunesAction)
-                LEKManager.sharedInstance.window.rootViewController?.presentViewController(rateAlert, animated: true, completion: nil)
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    LEKManager.sharedInstance.window.rootViewController?.presentViewController(rateAlert, animated: true, completion: nil)
+                })
             }
         }
     }
