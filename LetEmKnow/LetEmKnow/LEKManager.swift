@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 public let LEK_NEW_TOAST_NOTIFICATION: String = "com.gittielabs.lek.new_toast_notification"
 public let LEK_NEW_TOAST_SHOWN: String = "com.gittielabs.lek.new_toast_shown"
 public let LEK_NEW_TOAST_DISMISSED: String = "com.gittielabs.lek.new_toast_dismissed"
@@ -73,10 +74,14 @@ public class LEKManager: NSObject {
     }
     
     public func appDidFinishLaunching(notification: NSNotification){
+        let calendar = NSCalendar.currentCalendar()
+        let today = NSDate()
+        
         if let appId = self.preferences.getAppId(){
             let launches = self.preferences.getAppLaunchCount()
             let launchesBeforeAppVersionCheck = self.preferences.getLaunchesBeforeCheckingAppVersion()
-            if launches > launchesBeforeAppVersionCheck {
+            let lastAppVersionCheck = self.preferences.getLastAppStoreCheck() ?? today
+            if launches > launchesBeforeAppVersionCheck && calendar.compareDate(lastAppVersionCheck, toDate: today, toUnitGranularity: .Day) == .OrderedAscending{
                 networkMgr.checkForAppStoreUpdates(appId)
             }
         }
@@ -94,10 +99,13 @@ public class LEKManager: NSObject {
     }
     
     public func rateTheApp(notification: NSNotification){
+        let calendar = NSCalendar.currentCalendar()
         let userinfo = notification.userInfo
+        let today = NSDate()
         let requiredLaunches = LEKManager.sharedInstance.preferences.getLaunchesRequiredBeforeRating()
+        let lastRatingsCheck = self.preferences.getLastRatingsCheckDate() ?? today
         if let app_launches = userinfo?["app_launches"] as? Int{
-            if app_launches > requiredLaunches{
+            if app_launches > requiredLaunches && calendar.compareDate(lastRatingsCheck, toDate: today, toUnitGranularity: .Day) == .OrderedAscending{
                 let app_name = ""
                 let message = "Do you love the \(app_name) app?  Please rate us!"
                 let rateAlert = UIAlertController(title: "Rate Us", message: message, preferredStyle: .Alert)

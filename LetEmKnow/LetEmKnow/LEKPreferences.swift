@@ -13,6 +13,7 @@ let LEK_APP_LAUNCHES_CHANGED = "com.gittielabs.applaunches.changed"
 let LEK_APP_ID = "com.gittielabs.appId"
 let LEK_LAST_APPSTORE_CHECK = "com.gittielabs.last_appstore_check"
 let LEK_INSTALL_DATE = "com.gittielabs.install_date"
+let LEK_LAST_RATINGS_CHECK_DATE = "com.gittielabs.last_ratings_check_date"
 let LEK_REQUIRED_LAUNCHES_BEFORE_RATING = "com.gittielabs.required_launches_before_rating"
 let LEK_REQUIRED_LAUNCHES_BEFORE_APPVERSION = "com.gittielabs.required_launches_before_appversion"
 
@@ -81,6 +82,17 @@ public struct LEKPreferences {
     func getLaunchesRequiredBeforeRating()->Int{
         let launches = userdefaults.integerForKey(LEK_REQUIRED_LAUNCHES_BEFORE_RATING) ?? 0
         return launches
+    }
+    
+    func setLastRatingsCheck() {
+        let date = NSDate()
+        userdefaults.setObject(date, forKey: LEK_LAST_RATINGS_CHECK_DATE)
+        userdefaults.synchronize()
+    }
+    
+    func getLastRatingsCheckDate()->NSDate?{
+        let date = userdefaults.objectForKey(LEK_LAST_RATINGS_CHECK_DATE) as? NSDate
+        return date
     }
     
     func setLaunchesBeforeCheckingAppVersion(launches: Int){
