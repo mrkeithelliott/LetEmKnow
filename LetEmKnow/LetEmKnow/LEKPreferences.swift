@@ -16,6 +16,7 @@ let LEK_INSTALL_DATE = "com.gittielabs.install_date"
 let LEK_LAST_RATINGS_CHECK_DATE = "com.gittielabs.last_ratings_check_date"
 let LEK_REQUIRED_LAUNCHES_BEFORE_RATING = "com.gittielabs.required_launches_before_rating"
 let LEK_REQUIRED_LAUNCHES_BEFORE_APPVERSION = "com.gittielabs.required_launches_before_appversion"
+let LEK_APP_NAME = "com.gittielabs.appname"
 
 public struct LEKPreferences {
     let userdefaults = NSUserDefaults()
@@ -24,6 +25,16 @@ public struct LEKPreferences {
     
     init(){
         self.triggers = [:]
+    }
+    
+    func setAppName(name: String){
+        userdefaults.setObject(name, forKey: LEK_APP_NAME)
+        userdefaults.synchronize()
+    }
+    
+    func getAppName()->String?{
+        let name = userdefaults.objectForKey(LEK_APP_NAME) as? String
+        return name
     }
     
     func incrementAppLaunches(){
@@ -53,7 +64,8 @@ public struct LEKPreferences {
         return appId
     }
 
-    func setLastAppStoreCheck(date: NSDate){
+    func setLastAppStoreCheck(){
+        let date = NSDate()
         userdefaults.setObject(date, forKey: LEK_LAST_APPSTORE_CHECK)
         userdefaults.synchronize()
     }

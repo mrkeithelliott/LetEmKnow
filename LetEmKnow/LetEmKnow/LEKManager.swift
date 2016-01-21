@@ -28,6 +28,8 @@ public class LEKManager: NSObject {
         sharedInstance.preferences = LEKPreferences()
         sharedInstance.networkMgr = LEKNetworkManager(rootURL: "")
         
+        let app_name = NSBundle(forClass: application.delegate!.dynamicType).infoDictionary!["CFBundleName"] as? String
+        sharedInstance.preferences.setAppName(app_name!)
         sharedInstance.preferences.setAppId("661035659")
         sharedInstance.preferences.setLaunchesBeforeRating(1)
         sharedInstance.preferences.setLaunchesBeforeCheckingAppVersion(5)
@@ -106,8 +108,8 @@ public class LEKManager: NSObject {
         let lastRatingsCheck = self.preferences.getLastRatingsCheckDate() ?? today
         if let app_launches = userinfo?["app_launches"] as? Int{
             if app_launches > requiredLaunches && calendar.compareDate(lastRatingsCheck, toDate: today, toUnitGranularity: .Day) == .OrderedAscending{
-                let app_name = ""
-                let message = "Do you love the \(app_name) app?  Please rate us!"
+                let app_name = self.preferences.getAppName()
+                let message = "Do you love the \(app_name!) app?  Please rate us!"
                 let rateAlert = UIAlertController(title: "Rate Us", message: message, preferredStyle: .Alert)
                 let goToItunesAction = UIAlertAction(title: "Update Now", style: .Default, handler: { (action) -> Void in
                     let appId = LEKManager.sharedInstance.preferences.getAppId()
@@ -125,6 +127,8 @@ public class LEKManager: NSObject {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     LEKManager.sharedInstance.window.rootViewController?.presentViewController(rateAlert, animated: true, completion: nil)
                 })
+                
+                self.preferences.setLastRatingsCheck()
             }
         }
     }
@@ -152,6 +156,7 @@ public class LEKManager: NSObject {
                 updateAlert.addAction(goToItunesAction)
                 LEKManager.sharedInstance.window.rootViewController?.presentViewController(updateAlert, animated: true, completion: nil)
                 
+                self.preferences.setLastAppStoreCheck()
             }
         }
     }
