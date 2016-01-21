@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CD022C081C500182007D5608 /* LEKModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD022C071C500182007D5608 /* LEKModels.swift */; };
 		CD022C0B1C50252E007D5608 /* UpdateImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD022C0A1C50252E007D5608 /* UpdateImageView.xib */; };
+		CD022C171C5135C5007D5608 /* UpdateImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD022C161C5135C5007D5608 /* UpdateImageView.swift */; };
 		CD9DD11B1C4404C9009D6A96 /* LetEmKnow.h in Headers */ = {isa = PBXBuildFile; fileRef = CD9DD11A1C4404C9009D6A96 /* LetEmKnow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD9DD1221C4404C9009D6A96 /* LetEmKnow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */; };
 		CD9DD1271C4404C9009D6A96 /* LetEmKnowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9DD1261C4404C9009D6A96 /* LetEmKnowTests.swift */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		CD022C071C500182007D5608 /* LEKModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEKModels.swift; sourceTree = "<group>"; };
 		CD022C0A1C50252E007D5608 /* UpdateImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateImageView.xib; sourceTree = "<group>"; };
+		CD022C161C5135C5007D5608 /* UpdateImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateImageView.swift; sourceTree = "<group>"; };
 		CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LetEmKnow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD9DD11A1C4404C9009D6A96 /* LetEmKnow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetEmKnow.h; sourceTree = "<group>"; };
 		CD9DD11C1C4404C9009D6A96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				CD9DD1341C440DFC009D6A96 /* ToastView.xib */,
 				CD9DD1361C441B7B009D6A96 /* ToastView.swift */,
 				CD022C0A1C50252E007D5608 /* UpdateImageView.xib */,
+				CD022C161C5135C5007D5608 /* UpdateImageView.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				CD9DD1391C4423A1009D6A96 /* LEKManager.swift in Sources */,
 				CD022C081C500182007D5608 /* LEKModels.swift in Sources */,
 				CD9DD1641C4EE7B9009D6A96 /* LEKPreferences.swift in Sources */,
+				CD022C171C5135C5007D5608 /* UpdateImageView.swift in Sources */,
 				CD9DD1621C4E94A8009D6A96 /* LEKNetworkMgr.swift in Sources */,
 				CD9DD1371C441B7B009D6A96 /* ToastView.swift in Sources */,
 			);

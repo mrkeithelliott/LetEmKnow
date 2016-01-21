@@ -4,7 +4,12 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UpdateImageView" customModule="LetEmKnow" customModuleProvider="target">
+            <connections>
+                <outlet property="imageView" destination="3yt-er-1Rx" id="ey2-x3-LJp"/>
+                <outlet property="tapGesture" destination="15D-sD-MNT" id="wsH-iB-ATj"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -22,5 +27,6 @@
                 <constraint firstItem="3yt-er-1Rx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="tQX-iz-Lkf"/>
             </constraints>
         </view>
+        <tapGestureRecognizer id="15D-sD-MNT"/>
     </objects>
 </document>

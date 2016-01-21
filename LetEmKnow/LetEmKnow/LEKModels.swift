@@ -33,9 +33,9 @@ public struct ToastMessage{
         case (let title, let message, let icon, let backgroundColor, let titleColor, let textColor, let iconType) where title != nil && message != nil:
             
             let iconURL = NSURL(string: icon!)
-            let _titleColor = getColor(titleColor!) ?? UIColor.whiteColor()
-            let _backgroundColor = getColor(backgroundColor!) ?? UIColor.redColor()
-            let _textColor = getColor(textColor!) ?? UIColor.whiteColor()
+            let _titleColor = UIColor.getColor(titleColor!) ?? UIColor.whiteColor()
+            let _backgroundColor = UIColor.getColor(backgroundColor!) ?? UIColor.redColor()
+            let _textColor = UIColor.getColor(textColor!) ?? UIColor.whiteColor()
             let _iconType = IconType(rawValue: iconType!)
             
             let toast = ToastMessage(title: title!, message: message!, icon: iconURL!, iconType: _iconType, backgroundColor: _backgroundColor, titleColor: _titleColor, textColor: _textColor)
@@ -46,22 +46,20 @@ public struct ToastMessage{
             
         }
     }
+}
+
+public struct ImageDisplayMessage{
+    public var imageURL: NSURL!
     
-    static func getColor(colorString: String) -> UIColor?{
-        switch (colorString.lowercaseString){
-        case (let color) where color == "red":
-            return UIColor.redColor()
-        case (let color) where color == "white":
-            return UIColor.whiteColor()
-        case (let color) where color == "black":
-            return UIColor.blackColor()
-        case (let color) where color == "blue":
-            return UIColor.blueColor()
-        default:
-            return UIColor.colorFromHex(colorString)
+    public static func parse(dict: NSDictionary)->ImageDisplayMessage?{
+        switch (dict.valueForKeyPath("image_url") as? String){
+        case (let image_url):
+            let imageURL = NSURL(string: image_url!)
+            
+            let imgDisplayMessage = ImageDisplayMessage(imageURL: imageURL)
+            return imgDisplayMessage
         }
     }
-    
 }
 
 public struct LEKAppInfo{
@@ -98,5 +96,20 @@ public extension UIColor{
         }
         
         return UIColor.blackColor()
+    }
+    
+    public class func getColor(colorString: String) -> UIColor?{
+        switch (colorString.lowercaseString){
+        case (let color) where color == "red":
+            return UIColor.redColor()
+        case (let color) where color == "white":
+            return UIColor.whiteColor()
+        case (let color) where color == "black":
+            return UIColor.blackColor()
+        case (let color) where color == "blue":
+            return UIColor.blueColor()
+        default:
+            return UIColor.colorFromHex(colorString)
+        }
     }
 }
