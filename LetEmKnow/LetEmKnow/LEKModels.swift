@@ -113,3 +113,29 @@ public extension UIColor{
         }
     }
 }
+
+public struct LEKConfig{
+    public var appId: String!
+    public var appName: String!
+    public var appLaunchCount: Int!
+    public var lastAppStoreCheck: NSDate!
+    public var installDate: NSDate!
+    public var requiredAppLaunchesBeforeUpdateCheck: Int!
+    public var requiredAppLaunchesBeforeRatingsCheck: Int!
+    public var lastRatingsCheckDate: NSDate!
+    public var installedVersion: String!
+
+    static func populate(preferences: LEKPreferences)->LEKConfig{
+        var config = LEKConfig()
+        config.appId = preferences.appId
+        config.appName = preferences.getAppName()
+        config.appLaunchCount = preferences.getAppLaunchCount()
+        config.lastAppStoreCheck = preferences.getLastAppStoreCheck()
+        config.installDate = preferences.getInstalledDate()
+        config.requiredAppLaunchesBeforeUpdateCheck = preferences.getLaunchesBeforeCheckingAppVersion()
+        config.requiredAppLaunchesBeforeRatingsCheck = preferences.getLaunchesRequiredBeforeRating()
+        config.lastRatingsCheckDate = preferences.getLastRatingsCheckDate()
+        config.installedVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String
+        return config
+    }
+}

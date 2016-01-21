@@ -33,6 +33,7 @@ public class LEKManager: NSObject {
         sharedInstance.networkMgr = LEKNetworkManager(rootURL: "")
         
         let app_name = NSBundle(forClass: application.delegate!.dynamicType).infoDictionary!["CFBundleName"] as? String
+
         sharedInstance.preferences.setAppName(app_name!)
         sharedInstance.preferences.setAppId("661035659")
         sharedInstance.preferences.setLaunchesBeforeRating(1)

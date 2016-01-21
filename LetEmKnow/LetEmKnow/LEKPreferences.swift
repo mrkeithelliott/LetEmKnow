@@ -22,14 +22,19 @@ public struct LEKPreferences {
     let userdefaults = NSUserDefaults()
     var appId: String!
     var triggers: [Int: ()->Void]
+    var config: LEKConfig!
     
+    //MARK: - Setup
     init(){
         self.triggers = [:]
+        self.config = LEKConfig()
     }
     
-    func setAppName(name: String){
+    //MARK: - App Name
+    mutating func setAppName(name: String){
         userdefaults.setObject(name, forKey: LEK_APP_NAME)
         userdefaults.synchronize()
+        self.config.appName = name
     }
     
     func getAppName()->String?{
@@ -37,12 +42,14 @@ public struct LEKPreferences {
         return name
     }
     
-    func incrementAppLaunches(){
+    //MARK: - App Launches
+    mutating func incrementAppLaunches(){
         var launches = userdefaults.integerForKey(LEK_APP_LAUNCHES)
         launches++
         userdefaults.setInteger(launches, forKey: LEK_APP_LAUNCHES)
         userdefaults.synchronize()
-        
+        self.config.appLaunchCount = launches
+    
         NSNotificationCenter.defaultCenter().postNotificationName(LEK_APP_LAUNCHES_CHANGED, object: nil, userInfo: ["app_launches": launches])
     }
     
@@ -51,9 +58,12 @@ public struct LEKPreferences {
         return launches
     }
     
-    func setAppId(appId: String){
+    //MARK: - App Id
+    mutating func setAppId(appId: String){
         userdefaults.setObject(appId, forKey: LEK_APP_ID)
         userdefaults.synchronize()
+        
+        self.config.appId = appId
     }
     
     mutating func getAppId()->String?{
@@ -64,10 +74,13 @@ public struct LEKPreferences {
         return appId
     }
 
-    func setLastAppStoreCheck(){
+    //MARK: - AppStore Check
+    mutating func setLastAppStoreCheck(){
         let date = NSDate()
         userdefaults.setObject(date, forKey: LEK_LAST_APPSTORE_CHECK)
         userdefaults.synchronize()
+        
+        self.config.lastAppStoreCheck = date
     }
     
     func getLastAppStoreCheck()->NSDate? {
@@ -75,10 +88,13 @@ public struct LEKPreferences {
         return date
     }
     
-    func setInstalledDate() {
+    //MARK: - Install Date
+    mutating func setInstalledDate() {
         let date = NSDate()
         userdefaults.setObject(date, forKey: LEK_INSTALL_DATE)
         userdefaults.synchronize()
+        
+        self.config.installDate = date
     }
     
     func getInstalledDate() ->NSDate?{
@@ -86,9 +102,12 @@ public struct LEKPreferences {
         return date
     }
     
-    func setLaunchesBeforeRating(launches: Int){
+    //MARK: - Ratings
+    mutating func setLaunchesBeforeRating(launches: Int){
         userdefaults.setInteger(launches, forKey: LEK_REQUIRED_LAUNCHES_BEFORE_RATING)
         userdefaults.synchronize()
+        
+        self.config.requiredAppLaunchesBeforeRatingsCheck = launches
     }
     
     func getLaunchesRequiredBeforeRating()->Int{
@@ -96,10 +115,12 @@ public struct LEKPreferences {
         return launches
     }
     
-    func setLastRatingsCheck() {
+    mutating func setLastRatingsCheck() {
         let date = NSDate()
         userdefaults.setObject(date, forKey: LEK_LAST_RATINGS_CHECK_DATE)
         userdefaults.synchronize()
+        
+        self.config.lastRatingsCheckDate = date
     }
     
     func getLastRatingsCheckDate()->NSDate?{
@@ -107,9 +128,11 @@ public struct LEKPreferences {
         return date
     }
     
-    func setLaunchesBeforeCheckingAppVersion(launches: Int){
+    //MARK: - App Version
+    mutating func setLaunchesBeforeCheckingAppVersion(launches: Int){
         userdefaults.setInteger(launches, forKey: LEK_REQUIRED_LAUNCHES_BEFORE_APPVERSION)
         userdefaults.synchronize()
+        self.config.requiredAppLaunchesBeforeUpdateCheck = launches
     }
     
     func getLaunchesBeforeCheckingAppVersion()->Int{

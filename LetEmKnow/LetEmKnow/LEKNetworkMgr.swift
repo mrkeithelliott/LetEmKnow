@@ -19,6 +19,7 @@ public struct LEKNetworkManager{
         }
     }
     
+    // MARK: - Checking New Messaging
     func checkForNewMessages(){
         if _rootURL == nil {
             return
@@ -58,6 +59,7 @@ public struct LEKNetworkManager{
         
     }
     
+    // MARK: - Check for AppStore updates
     func checkForAppStoreUpdates(appId: String){
         let url = NSURL(string: "http://itunes.apple.com/lookup?id=\(appId)")
         let request = NSMutableURLRequest(URL: url!)
