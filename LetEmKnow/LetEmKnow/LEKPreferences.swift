@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Parse
 
 let LEK_APP_LAUNCHES = "com.gittielabs.applaunches"
 let LEK_APP_LAUNCHES_CHANGED = "com.gittielabs.applaunches.changed"
@@ -20,14 +21,13 @@ let LEK_APP_NAME = "com.gittielabs.appname"
 
 public struct LEKPreferences {
     let userdefaults = NSUserDefaults()
-    var appId: String!
     var triggers: [Int: ()->Void]
     var config: LEKConfig!
     
     //MARK: - Setup
     init(){
         self.triggers = [:]
-        self.config = LEKConfig()
+        self.config = LEKConfig.populate(self)
     }
     
     //MARK: - App Name
@@ -66,11 +66,8 @@ public struct LEKPreferences {
         self.config.appId = appId
     }
     
-    mutating func getAppId()->String?{
-        if appId == nil {
-            appId = userdefaults.stringForKey(LEK_APP_ID)
-        }
-        
+    func getAppId()->String?{
+        let appId = userdefaults.stringForKey(LEK_APP_ID)
         return appId
     }
 
@@ -90,24 +87,33 @@ public struct LEKPreferences {
     
     //MARK: - Install Date
     mutating func setInstalledDate() {
-        let date = NSDate()
-        userdefaults.setObject(date, forKey: LEK_INSTALL_DATE)
-        userdefaults.synchronize()
+        if let user = PFUser.currentUser(){
+            let date = user.createdAt
+            userdefaults.setObject(date, forKey: LEK_INSTALL_DATE)
+            userdefaults.synchronize()
         
-        self.config.installDate = date
+            self.config.installDate = date
+        }
     }
     
     func getInstalledDate() ->NSDate?{
-        let date = userdefaults.objectForKey(LEK_INSTALL_DATE) as? NSDate
-        return date
+        if let date = userdefaults.objectForKey(LEK_INSTALL_DATE) as? NSDate{
+            return date
+        }
+        else{
+            return PFUser.currentUser()?.createdAt
+        }
     }
     
     //MARK: - Ratings
-    mutating func setLaunchesBeforeRating(launches: Int){
-        userdefaults.setInteger(launches, forKey: LEK_REQUIRED_LAUNCHES_BEFORE_RATING)
+    mutating func setLaunchesBeforeRating(launches: NSNumber?){
+        if launches == nil {
+            return
+        }
+        userdefaults.setInteger(launches!.integerValue, forKey: LEK_REQUIRED_LAUNCHES_BEFORE_RATING)
         userdefaults.synchronize()
         
-        self.config.requiredAppLaunchesBeforeRatingsCheck = launches
+        self.config.requiredAppLaunchesBeforeRatingsCheck = launches!.integerValue
     }
     
     func getLaunchesRequiredBeforeRating()->Int{
@@ -129,10 +135,14 @@ public struct LEKPreferences {
     }
     
     //MARK: - App Version
-    mutating func setLaunchesBeforeCheckingAppVersion(launches: Int){
-        userdefaults.setInteger(launches, forKey: LEK_REQUIRED_LAUNCHES_BEFORE_APPVERSION)
+    mutating func setLaunchesBeforeCheckingAppVersion(launches: NSNumber?){
+        if launches == nil {
+            return
+        }
+        
+        userdefaults.setInteger(launches!.integerValue, forKey: LEK_REQUIRED_LAUNCHES_BEFORE_APPVERSION)
         userdefaults.synchronize()
-        self.config.requiredAppLaunchesBeforeUpdateCheck = launches
+        self.config.requiredAppLaunchesBeforeUpdateCheck = launches!.integerValue
     }
     
     func getLaunchesBeforeCheckingAppVersion()->Int{

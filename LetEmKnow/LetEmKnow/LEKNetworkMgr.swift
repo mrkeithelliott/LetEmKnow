@@ -7,52 +7,24 @@
 //
 
 import Foundation
+import Parse
 
 public struct LEKNetworkManager{
     let session: NSURLSession
-    var _rootURL: NSURL! = nil
     
-    init(rootURL: String?){
+    init(){
         session = NSURLSession.sharedSession()
-        if let url = NSURL(string: rootURL!){
-            _rootURL = url
-        }
     }
     
     // MARK: - Checking New Messaging
     func checkForNewMessages(){
-        if _rootURL == nil {
-            return
-        }
+        let notification = ["toast": ""]
+        NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_TOAST_NOTIFICATION, object: nil, userInfo: notification)
         
-        let request = NSMutableURLRequest(URL: self._rootURL)
-        request.HTTPMethod = "GET"
-        
-        let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
-            if error != nil{
-                print("request failed", terminator: "")
-            }
-            else{
-                do{
-                    if let jsonDict = try NSJSONSerialization.JSONObjectWithData(data!, options:[]) as? NSDictionary{
-                        if let result = jsonDict.valueForKeyPath("result") as? NSDictionary {
-                            let notification = ["toast": result]
-                            NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_TOAST_NOTIFICATION, object: nil, userInfo: notification)
-                        }
-                    }
-                    
-                }
-                catch{
-                    print("failed to serialize object to json", terminator: "")
-                }
-            }
-        }
-        
-        task.resume()
     }
     
     func saveUpdates(){
-        
+        LEKManager.sharedInstance.preferences.config.synchronizeUser()
     }
     
     func checkForUpdates(){
@@ -67,7 +39,7 @@ public struct LEKNetworkManager{
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
             if error != nil{
-                print("request failed", terminator: "")
+                print("request failed")
             }
             else{
                 do{
@@ -84,7 +56,7 @@ public struct LEKNetworkManager{
                     
                 }
                 catch{
-                    print("failed to serialize object to json", terminator: "")
+                    print("failed to serialize object to json")
                 }
             }
         }

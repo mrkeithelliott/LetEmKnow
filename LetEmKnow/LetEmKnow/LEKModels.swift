@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Parse
+import DeviceLib
 
 public enum IconType: String {
     case Important = "Important"
@@ -124,18 +126,56 @@ public struct LEKConfig{
     public var requiredAppLaunchesBeforeRatingsCheck: Int!
     public var lastRatingsCheckDate: NSDate!
     public var installedVersion: String!
+    public var iOSVersion: String!
 
+    func synchronizeUser(){
+        if let user = PFUser.currentUser(){
+            user.setObject(appId, forKey: "appId")
+            user.setObject(appName, forKey: "appName")
+            user.setObject(appLaunchCount, forKey: "appLaunchCount")
+            if lastAppStoreCheck != nil{
+                user.setObject(lastAppStoreCheck, forKey: "lastAppStoreCheck")
+            }
+            if installDate != nil{
+                user.setObject(installDate, forKey: "installDate")
+            }
+            if requiredAppLaunchesBeforeUpdateCheck != nil{
+                user.setObject(requiredAppLaunchesBeforeUpdateCheck, forKey: "launchesBeforeAppStoreCheck")
+            }
+            if requiredAppLaunchesBeforeRatingsCheck != nil {
+                user.setObject(requiredAppLaunchesBeforeRatingsCheck, forKey: "launchesBeforeRatingsCheck")
+            }
+            if lastRatingsCheckDate != nil{
+                user.setObject(lastRatingsCheckDate, forKey: "lastRatingsCheck")
+            }
+            if installedVersion != nil{
+                user.setObject(installedVersion, forKey: "installedVersion")
+            }
+            user.setObject(Device.version().rawValue, forKey: "OSVersion")
+            user.setObject(Device.type().rawValue, forKey: "DeviceType")
+            
+            user.saveInBackgroundWithBlock({ (status, error) -> Void in
+                if error != nil{
+                    user.saveEventually()
+                }
+            })
+        }
+    }
+    
     static func populate(preferences: LEKPreferences)->LEKConfig{
         var config = LEKConfig()
-        config.appId = preferences.appId
+        let today = NSDate()
+        config.appId = preferences.getAppId()
         config.appName = preferences.getAppName()
         config.appLaunchCount = preferences.getAppLaunchCount()
-        config.lastAppStoreCheck = preferences.getLastAppStoreCheck()
-        config.installDate = preferences.getInstalledDate()
-        config.requiredAppLaunchesBeforeUpdateCheck = preferences.getLaunchesBeforeCheckingAppVersion()
-        config.requiredAppLaunchesBeforeRatingsCheck = preferences.getLaunchesRequiredBeforeRating()
-        config.lastRatingsCheckDate = preferences.getLastRatingsCheckDate()
+        config.lastAppStoreCheck = preferences.getLastAppStoreCheck() ?? today
+        config.installDate = preferences.getInstalledDate() ?? today
+        config.requiredAppLaunchesBeforeUpdateCheck = preferences.getLaunchesBeforeCheckingAppVersion() ?? 0
+        config.requiredAppLaunchesBeforeRatingsCheck = preferences.getLaunchesRequiredBeforeRating() ?? 0
+        config.lastRatingsCheckDate = preferences.getLastRatingsCheckDate() ?? today
         config.installedVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String
+        config.synchronizeUser()
+        
         return config
     }
 }

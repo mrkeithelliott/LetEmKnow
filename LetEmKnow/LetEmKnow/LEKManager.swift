@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 
 public let LEK_NEW_TOAST_NOTIFICATION: String = "com.gittielabs.lek.new_toast_notification"
@@ -22,27 +23,38 @@ public class LEKManager: NSObject {
     var preferences: LEKPreferences!
     var networkMgr: LEKNetworkManager!
     var application: UIApplication!
+    var applicationId: String!
+    var clientKey: String!
     
     public static var sharedInstance = LEKManager()
 
     // MARK: - Setup and Init methods
-    public class func setup(application: UIApplication){
-        sharedInstance.window = application.windows[0]
-        sharedInstance.application = application
+    public class func setupWithApplicationId(applicationId: String, clientKey: String){
         sharedInstance.preferences = LEKPreferences()
-        sharedInstance.networkMgr = LEKNetworkManager(rootURL: "")
+        sharedInstance.networkMgr = LEKNetworkManager()
+        sharedInstance.applicationId = applicationId
+        sharedInstance.clientKey = clientKey
         
-        let app_name = NSBundle(forClass: application.delegate!.dynamicType).infoDictionary!["CFBundleName"] as? String
-
-        sharedInstance.preferences.setAppName(app_name!)
-        sharedInstance.preferences.setAppId("661035659")
-        sharedInstance.preferences.setLaunchesBeforeRating(1)
-        sharedInstance.preferences.setLaunchesBeforeCheckingAppVersion(5)
-        sharedInstance.preferences.incrementAppLaunches()
+        if let user = PFUser.currentUser(){
+            user.setObject("", forKey: "appId")
+            let launchesBeforeRating = user.objectForKey("launchesBeforeRatingsCheck") as? NSNumber
+            let launchesBeforeAppStoreCheck = user.objectForKey("launchesBeforeAppStoreCheck") as? NSNumber
+            
+            sharedInstance.preferences.setAppId("APP ID")
+            sharedInstance.preferences.setLaunchesBeforeRating(launchesBeforeRating)
+            sharedInstance.preferences.setLaunchesBeforeCheckingAppVersion(launchesBeforeAppStoreCheck)
+            sharedInstance.preferences.incrementAppLaunches()
+            
+            sharedInstance.preferences.config.synchronizeUser()
+        }
     }
     
     private override init(){
         super.init()
+    
+        Parse.setApplicationId(applicationId, clientKey: clientKey)
+        PFUser.enableAutomaticUser()
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newToastReceived:", name: LEK_NEW_TOAST_NOTIFICATION, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newImageDisplayReceived:", name: LEK_NEW_IMAGE_NOTIFICATION, object: nil)
@@ -196,15 +208,24 @@ public class LEKManager: NSObject {
         
         let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(2) * Double(NSEC_PER_SEC)))
         dispatch_after(delay, dispatch_get_main_queue(), { () -> Void in
-//            NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_TOAST_NOTIFICATION, object: nil, userInfo: ["toast" : ["title": "Test Toast Message", "message": "Test toast message with a really long explanation of really nothing at all.  Hopefully multilines", "icon": "https://test.com/icon", "backgroundColor": "#808080",
-//                "textColor": "white", "titleColor": "ffffff",
-//                "iconType": "Important"]])
-            
             NSNotificationCenter.defaultCenter().postNotificationName(LEK_NEW_IMAGE_NOTIFICATION, object: nil, userInfo: ["imageDisplay":["image_url":""]])
         })
     }
     
     public func appDidFinishLaunching(notification: NSNotification){
+        if let _application = notification.object as? UIApplication{
+            self.window = _application.windows[0]
+            self.application = _application
+            
+            let app_name = NSBundle(forClass: application.delegate!.dynamicType).infoDictionary!["CFBundleName"] as? String
+            
+            if let user = PFUser.currentUser(){
+                user.setObject(app_name!, forKey: "appName")
+                preferences.setAppName(app_name!)
+                preferences.config.synchronizeUser()
+            }
+        }
+        
         let calendar = NSCalendar.currentCalendar()
         let today = NSDate()
         

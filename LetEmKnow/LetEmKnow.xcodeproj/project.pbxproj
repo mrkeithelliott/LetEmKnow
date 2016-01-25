@@ -10,6 +10,9 @@
 		CD022C081C500182007D5608 /* LEKModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD022C071C500182007D5608 /* LEKModels.swift */; };
 		CD022C0B1C50252E007D5608 /* UpdateImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD022C0A1C50252E007D5608 /* UpdateImageView.xib */; };
 		CD022C171C5135C5007D5608 /* UpdateImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD022C161C5135C5007D5608 /* UpdateImageView.swift */; };
+		CD022C1A1C52A572007D5608 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD022C181C52A572007D5608 /* Bolts.framework */; };
+		CD022C1B1C52A572007D5608 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD022C191C52A572007D5608 /* Parse.framework */; };
+		CD022C331C52D871007D5608 /* DeviceLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD022C321C52D871007D5608 /* DeviceLib.framework */; };
 		CD9DD11B1C4404C9009D6A96 /* LetEmKnow.h in Headers */ = {isa = PBXBuildFile; fileRef = CD9DD11A1C4404C9009D6A96 /* LetEmKnow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD9DD1221C4404C9009D6A96 /* LetEmKnow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */; };
 		CD9DD1271C4404C9009D6A96 /* LetEmKnowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9DD1261C4404C9009D6A96 /* LetEmKnowTests.swift */; };
@@ -64,6 +67,9 @@
 		CD022C071C500182007D5608 /* LEKModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEKModels.swift; sourceTree = "<group>"; };
 		CD022C0A1C50252E007D5608 /* UpdateImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateImageView.xib; sourceTree = "<group>"; };
 		CD022C161C5135C5007D5608 /* UpdateImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateImageView.swift; sourceTree = "<group>"; };
+		CD022C181C52A572007D5608 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
+		CD022C191C52A572007D5608 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
+		CD022C321C52D871007D5608 /* DeviceLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceLib.framework; path = Carthage/Build/iOS/DeviceLib.framework; sourceTree = "<group>"; };
 		CD9DD1171C4404C9009D6A96 /* LetEmKnow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LetEmKnow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD9DD11A1C4404C9009D6A96 /* LetEmKnow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetEmKnow.h; sourceTree = "<group>"; };
 		CD9DD11C1C4404C9009D6A96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -91,6 +97,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD022C331C52D871007D5608 /* DeviceLib.framework in Frameworks */,
+				CD022C1A1C52A572007D5608 /* Bolts.framework in Frameworks */,
+				CD022C1B1C52A572007D5608 /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +125,9 @@
 		CD9DD10D1C4404C9009D6A96 = {
 			isa = PBXGroup;
 			children = (
+				CD022C321C52D871007D5608 /* DeviceLib.framework */,
+				CD022C181C52A572007D5608 /* Bolts.framework */,
+				CD022C191C52A572007D5608 /* Parse.framework */,
 				CD9DD1191C4404C9009D6A96 /* LetEmKnow */,
 				CD9DD1251C4404C9009D6A96 /* LetEmKnowTests */,
 				CD9DD13F1C442A07009D6A96 /* LEKExample */,
@@ -204,6 +216,7 @@
 				CD9DD1131C4404C9009D6A96 /* Frameworks */,
 				CD9DD1141C4404C9009D6A96 /* Headers */,
 				CD9DD1151C4404C9009D6A96 /* Resources */,
+				CD022C341C52DC5D007D5608 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -321,6 +334,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CD022C341C52DC5D007D5608 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/DeviceLib.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Bolts.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Parse.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CD9DD1121C4404C9009D6A96 /* Sources */ = {
@@ -486,6 +518,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = LetEmKnow/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -506,6 +542,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = LetEmKnow/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
